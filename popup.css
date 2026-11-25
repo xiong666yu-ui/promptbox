@@ -38,7 +38,7 @@ body {
 
 .hd { display: flex; justify-content: space-between; align-items: center; }
 .brand { display: flex; align-items: center; gap: 6px; }
-.logo { font-size: 18px; }
+.logo { width: 30px; height: 30px; border-radius: 8px; display: block; }
 h1 { margin: 0; font-size: 17px; letter-spacing: -0.2px; }
 .hd-right { display: flex; align-items: center; gap: 8px; }
 
