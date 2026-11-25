@@ -22,7 +22,7 @@ const PBPayment = (() => {
   const CHECKOUT_URL = 'https://www.creem.io/product/prod_4GXKK2FVbguPycwyfCGaE';
   // TODO: after `wrangler deploy`, replace YOUR-SUBDOMAIN with the real one
   // shown in the deploy output (e.g. promptbox-license.my-name.workers.dev).
-  const WORKER_URL = 'https://promptbox-license.YOUR-SUBDOMAIN.workers.dev';
+  const WORKER_URL = 'https://promptbox-license.xiong666yu.workers.dev';
 
   const PRO_KEY = 'pb_pro';
   const INSTANCE_KEY = 'pb_instance_id';
