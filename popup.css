@@ -66,6 +66,36 @@ h1 { margin: 0; font-size: 17px; letter-spacing: -0.2px; }
 
 .quota { margin-top: 8px; font-size: 11px; color: var(--muted); }
 
+.license-box {
+  margin-top: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+}
+.license-box input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+.license-box input:focus { border-color: var(--accent); }
+.license-box .btn-primary { width: 100%; margin-top: 8px; }
+.license-note {
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.license-note.err { color: var(--danger); }
+.license-note.ok { color: var(--ok); font-weight: 600; }
+
 .folder-bar {
   display: flex;
   flex-wrap: wrap;

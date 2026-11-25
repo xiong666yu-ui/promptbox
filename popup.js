@@ -31,7 +31,9 @@ const folderSelect = $('folder-select');
 const exportBtn = $('export-btn');
 const importBtn = $('import-btn');
 const importFile = $('import-file');
-const devBtn = $('dev-btn');
+const licenseInput = $('license-input');
+const licenseBtn = $('license-btn');
+const licenseNote = $('license-note');
 
 const VAR_RE = /\[[^\[\]\n]+\]/;
 
@@ -59,9 +61,19 @@ function renderPlan() {
   quotaEl.textContent = pro
     ? 'Unlimited prompts · unlimited folders · lifetime license'
     : `${prompts.length}/${FREE_PROMPTS} prompts · ${folders.filter((f) => !f.preset).length}/${FREE_CUSTOM_FOLDERS} custom folders`;
-  upgradeBtn.textContent = pro ? '✓ Pro' : 'Upgrade $6.99';
-  upgradeBtn.disabled = pro;
-  devBtn.hidden = !PBPayment.DEV_MODE;
+  upgradeBtn.textContent = pro ? '✓ Pro Active' : 'Upgrade $6.99';
+
+  if (pro) {
+    licenseInput.hidden = true;
+    licenseBtn.textContent = 'Deactivate this device';
+    licenseNote.className = 'license-note ok';
+    licenseNote.textContent = 'Licensed ✓' + (PBPayment.getInstanceId() ? ' · device id …' + String(PBPayment.getInstanceId()).slice(-6) : '');
+  } else {
+    licenseInput.hidden = false;
+    licenseBtn.textContent = 'Activate';
+    licenseNote.className = 'license-note';
+    licenseNote.textContent = 'After checkout you\u2019ll receive a license key by email \u2014 paste it here to unlock Pro.';
+  }
 }
 
 function renderFolders() {
@@ -177,14 +189,29 @@ addBtn.onclick = () => {
 };
 
 upgradeBtn.onclick = () => {
-  if (pro) return;
-  PBPayment.openUpgrade(); // DEV_MODE: instantly toggles Pro
-  setTimeout(load, 300);
+  PBPayment.openCheckout(); // Creem Checkout page
 };
 
-devBtn.onclick = () => {
-  PBPayment.setPro(!PBPayment.isPro());
-  setTimeout(load, 150);
+licenseBtn.onclick = async () => {
+  if (pro) {
+    await PBPayment.deactivate();
+    render();
+    return;
+  }
+  licenseBtn.disabled = true;
+  licenseBtn.textContent = 'Verifying…';
+  licenseNote.className = 'license-note';
+  licenseNote.textContent = 'Contacting license server…';
+  const r = await PBPayment.activateLicense(licenseInput.value);
+  licenseBtn.disabled = false;
+  if (r.ok) {
+    licenseInput.value = '';
+    render();
+  } else {
+    licenseBtn.textContent = 'Activate';
+    licenseNote.className = 'license-note err';
+    licenseNote.textContent = r.error;
+  }
 };
 
 exportBtn.onclick = () => {
@@ -237,8 +264,11 @@ importFile.onchange = () => {
 
 function needPro(msg) {
   alert(msg + '\nUpgrade to Pro ($6.99 lifetime) to unlock it.');
-  PBPayment.openUpgrade();
-  setTimeout(load, 300);
+  PBPayment.openCheckout();
 }
 
-PBPayment.init().then(load);
+PBPayment.init().then(() => {
+  load();
+  // silent license re-check: a revoked/expired key falls back to Free
+  PBPayment.validateStored().then(() => render());
+});

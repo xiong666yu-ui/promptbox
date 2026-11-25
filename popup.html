@@ -12,6 +12,12 @@
 
   <div id="quota" class="quota"></div>
 
+  <div class="license-box">
+    <input type="text" id="license-input" placeholder="Have a license key? Paste it here…" spellcheck="false" />
+    <button id="license-btn" class="btn-primary">Activate</button>
+    <div id="license-note" class="license-note">After checkout you'll receive a license key by email — paste it here to unlock Pro.</div>
+  </div>
+
   <div id="folder-bar" class="folder-bar"></div>
 
   <div class="add-form">
@@ -29,7 +35,6 @@
     <button id="export-btn" class="btn-ghost">⬇ Export JSON</button>
     <button id="import-btn" class="btn-ghost">⬆ Import JSON</button>
     <input type="file" id="import-file" accept=".json,application/json" hidden />
-    <button id="dev-btn" class="btn-dev" hidden>🧪 Toggle Pro (Dev)</button>
   </footer>
   <script src="payment.js"></script>
   <script src="popup.js"></script>
