@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptBox — Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 720px; margin: 40px auto; padding: 0 24px;
+         font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+         line-height: 1.7; color: #1a1a1e; background: #ffffff; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #f4f4f5; background: #17171a; }
+    a { color: #818cf8; }
+  }
+  h1 { font-size: 26px; } h2 { font-size: 18px; margin-top: 32px; }
+  .meta { color: #71717a; font-size: 14px; }
+  .highlight { background: #eef0fe; border-left: 4px solid #6366f1;
+               padding: 14px 18px; border-radius: 8px; }
+  @media (prefers-color-scheme: dark) { .highlight { background: #2e2f4a; } }
+</style>
+</head>
+<body>
+  <h1>PromptBox — Privacy Policy</h1>
+  <p class="meta">Last updated: November 24, 2026</p>
+
+  <div class="highlight">
+    <strong>Short version:</strong> PromptBox does not collect, transmit, or share any of your data.
+    Everything you save stays inside your own browser, on your own device.
+  </div>
+
+  <h2>1. What data PromptBox stores</h2>
+  <p>PromptBox stores the following information <strong>locally in your browser</strong> using the
+  <code>chrome.storage.local</code> API:</p>
+  <ul>
+    <li>Your saved prompts (titles and text content)</li>
+    <li>Your folder/category names</li>
+    <li>Your license state (Free / Pro)</li>
+  </ul>
+
+  <h2>2. What data we do NOT collect</h2>
+  <ul>
+    <li>We do <strong>not</strong> collect personal information, browsing history, or page content.</li>
+    <li>We do <strong>not</strong> transmit your prompts to any third-party server. There is no backend, no analytics, and no tracking of any kind.</li>
+    <li>We do <strong>not</strong> read the content of your conversations with ChatGPT, Claude, or Gemini. The extension only inserts text into the input box when <em>you</em> explicitly trigger it with the <code>/</code> shortcut.</li>
+    <li>We do <strong>not</strong> sell or share data with anyone — there is no data to sell.</li>
+  </ul>
+
+  <h2>3. Data storage &amp; retention</h2>
+  <p>All data lives in your browser profile via <code>chrome.storage.local</code>. It is never uploaded.
+  If you uninstall PromptBox, or clear your browser data, all saved prompts are permanently deleted from your
+  device. You can export your prompts as a JSON file at any time for backup.</p>
+
+  <h2>4. Payments</h2>
+  <p>The optional Pro upgrade (one-time purchase) is processed by our payment provider
+  <a href="https://www.creem.io" rel="noopener">Creem</a>.
+  PromptBox never sees or stores your payment details. When you upgrade, only an anonymous license
+  token is stored locally to unlock Pro features.</p>
+
+  <h2>5. Refund policy</h2>
+  <p>Pro purchases come with a <strong>7-day money-back guarantee</strong>. If you are not satisfied,
+  email us within 7 days of purchase and we will issue a full refund — no questions asked.</p>
+
+  <h2>6. Permissions explanation</h2>
+  <ul>
+    <li><strong>storage</strong> — required to save your prompts locally in the browser.</li>
+    <li><strong>Host access to chatgpt.com, claude.ai, gemini.google.com</strong> — required to show the
+    <code>/</code> prompt menu inside the AI chat input box on these three sites. No content is read or sent anywhere.</li>
+  </ul>
+
+  <h2>7. Changes to this policy</h2>
+  <p>If this policy changes, the updated version will be posted on this page with a new revision date.</p>
+
+  <h2>8. Contact</h2>
+  <p>Questions about privacy or refunds? Email us at
+  <a href="mailto:xiong666yu@gmail.com">xiong666yu@gmail.com</a> — we usually reply within 24 hours.
+  You can also reach the developer via the Chrome Web Store "Contact the developer" link.</p>
+</body>
+</html>

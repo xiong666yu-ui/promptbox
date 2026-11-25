@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "PromptBox — Prompt Manager for ChatGPT, Claude & Gemini",
+  "version": "2.0.0",
+  "description": "Save, organize & insert AI prompts with '/' on ChatGPT, Claude and Gemini. Folders, variables, JSON backup. One-time purchase.",
+  "permissions": ["storage"],
+  "background": { "service_worker": "background.js" },
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PromptBox — your AI prompt box",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*", "https://gemini.google.com/*"],
+      "js": ["payment.js", "content.js"],
+      "css": ["inject.css"]
+    }
+  ]
+}

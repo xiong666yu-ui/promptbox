@@ -1,0 +1,159 @@
+/* PromptBox injected UI — follows host site light/dark, blends with native UI */
+
+#promptbox-menu, #pb-var-modal, #pb-toast {
+  --pb-bg: #ffffff;
+  --pb-card: #ffffff;
+  --pb-text: #1a1a1e;
+  --pb-muted: #71717a;
+  --pb-border: #e4e4e7;
+  --pb-hover: #f1f1f4;
+  --pb-accent: #6366f1;
+  --pb-accent-soft: #eef0fe;
+  --pb-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+@media (prefers-color-scheme: dark) {
+  #promptbox-menu, #pb-var-modal, #pb-toast {
+    --pb-bg: #1c1c20;
+    --pb-card: #232328;
+    --pb-text: #f4f4f5;
+    --pb-muted: #9d9da7;
+    --pb-border: #3a3a41;
+    --pb-hover: #2d2d34;
+    --pb-accent: #818cf8;
+    --pb-accent-soft: #2e2f4a;
+    --pb-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+}
+
+#promptbox-menu {
+  position: fixed;
+  z-index: 2147483647;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--pb-bg);
+  color: var(--pb-text);
+  border: 1px solid var(--pb-border);
+  border-radius: 14px;
+  box-shadow: var(--pb-shadow);
+  padding: 6px;
+  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  animation: pb-pop 0.12s ease-out;
+}
+@keyframes pb-pop {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.promptbox-item { padding: 8px 10px; border-radius: 9px; cursor: pointer; }
+.promptbox-item.pb-active, .promptbox-item:hover { background: var(--pb-hover); }
+.pb-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pb-title { font-weight: 600; color: var(--pb-text); }
+.pb-tag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--pb-accent);
+  background: var(--pb-accent-soft);
+  padding: 1px 7px;
+  border-radius: 99px;
+}
+.pb-preview {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--pb-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pb-empty { padding: 14px 10px; font-size: 12px; color: var(--pb-muted); text-align: center; }
+
+/* ---- variable fill-in modal ---- */
+#pb-var-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+}
+.pb-var-card {
+  width: min(400px, 92vw);
+  background: var(--pb-card);
+  color: var(--pb-text);
+  border: 1px solid var(--pb-border);
+  border-radius: 16px;
+  box-shadow: var(--pb-shadow);
+  padding: 18px;
+  animation: pb-pop 0.15s ease-out;
+}
+.pb-var-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.pb-var-label {
+  display: block;
+  font-size: 12px;
+  color: var(--pb-muted);
+  margin-bottom: 10px;
+}
+.pb-var-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--pb-text);
+  background: var(--pb-bg);
+  border: 1px solid var(--pb-border);
+  border-radius: 9px;
+  outline: none;
+}
+.pb-var-input:focus { border-color: var(--pb-accent); }
+.pb-var-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+.pb-var-actions button {
+  padding: 7px 14px;
+  font-size: 13px;
+  border-radius: 9px;
+  border: 1px solid var(--pb-border);
+  background: transparent;
+  color: var(--pb-text);
+  cursor: pointer;
+}
+.pb-var-ok {
+  background: var(--pb-accent) !important;
+  border-color: var(--pb-accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* ---- upgrade toast ---- */
+#pb-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 92vw;
+  background: var(--pb-card);
+  color: var(--pb-text);
+  border: 1px solid var(--pb-border);
+  border-radius: 12px;
+  box-shadow: var(--pb-shadow);
+  padding: 10px 14px;
+  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+}
+#pb-toast button {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--pb-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to PromptBox</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: radial-gradient(ellipse at 20% 0%, #1a2033 0%, #0b0d14 55%, #07080d 100%);
+    color: #f4f4f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+  .wrap { max-width: 880px; width: 100%; }
+  .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  .logo {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, #6366f1, #0ea5e9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.35);
+  }
+  h1 { font-size: 34px; letter-spacing: -0.5px; }
+  h1 span {
+    background: linear-gradient(90deg, #818cf8, #38bdf8);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { color: #9d9da7; font-size: 16px; margin-bottom: 44px; margin-left: 66px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 18px;
+    padding: 26px 22px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(129, 140, 248, 0.5); }
+  .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #0ea5e9);
+    font-weight: 800; font-size: 16px; color: #fff;
+    margin-bottom: 16px;
+  }
+  .card h2 { font-size: 17px; margin-bottom: 10px; line-height: 1.35; }
+  .card p { font-size: 13.5px; color: #a6a6b0; line-height: 1.65; }
+  .card code {
+    font-family: 'Cascadia Code', Consolas, monospace;
+    background: rgba(129, 140, 248, 0.15);
+    color: #a5b4fc;
+    padding: 2px 7px; border-radius: 6px; font-size: 12.5px;
+  }
+  .kbd {
+    display: inline-block;
+    background: #23232b; border: 1px solid #3f3f46; border-bottom-width: 3px;
+    border-radius: 7px; padding: 2px 9px;
+    font-family: 'Cascadia Code', Consolas, monospace;
+    font-size: 15px; color: #f4f4f5;
+  }
+  .slash-demo {
+    margin-top: 14px;
+    background: #131318; border: 1px solid #3a3a41; border-radius: 11px;
+    padding: 9px 12px; font-size: 13px; color: #d4d4d8;
+    position: relative;
+  }
+  .slash-demo .cursor {
+    display: inline-block; width: 2px; height: 15px;
+    background: #818cf8; vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .menu-float {
+    position: absolute; left: 10px; top: calc(100% + 4px);
+    width: 82%; background: #1c1c22; border: 1px solid #3a3a41;
+    border-radius: 10px; padding: 6px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+    font-size: 12px;
+  }
+  .menu-float .mi { padding: 6px 8px; border-radius: 7px; color: #e4e4e7; }
+  .menu-float .mi b { color: #a5b4fc; font-weight: 600; }
+  .menu-float .mi.on { background: #2d2d36; }
+  .foot {
+    margin-top: 44px; text-align: center;
+    color: #6e6e78; font-size: 13px;
+  }
+  .foot b { color: #a5b4fc; }
+  @media (max-width: 760px) {
+    .steps { grid-template-columns: 1fr; }
+    .sub { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="icons/icon48.png" alt="PromptBox" style="width:52px;height:52px;border-radius:14px;box-shadow:0 8px 30px rgba(99,102,241,0.35);">
+      <h1>Welcome to <span>PromptBox</span></h1>
+    </div>
+    <p class="sub">Your prompts, one keystroke away — on ChatGPT, Claude & Gemini.</p>
+
+    <div class="steps">
+      <div class="card">
+        <div class="num">1</div>
+        <h2>Pin PromptBox</h2>
+        <p>Click the <code>puzzle piece</code> icon in the Chrome toolbar, then click the <b>pin</b> next to PromptBox so it stays one click away.</p>
+      </div>
+      <div class="card">
+        <div class="num">2</div>
+        <h2>Open your AI chat</h2>
+        <p>Head to <b>ChatGPT</b>, <b>Claude</b>, or <b>Gemini</b>. PromptBox works on all three — no setup, no account.</p>
+      </div>
+      <div class="card">
+        <div class="num">3</div>
+        <h2>Type the slash</h2>
+        <p>Hit the <span class="kbd">/</span> key inside the chat box and pick a prompt. Your saved text fills in instantly.</p>
+        <div class="slash-demo">
+          <span class="cursor"></span>
+          <div class="menu-float">
+            <div class="mi on">⚡ <b>Code review</b> — Review this code…</div>
+            <div class="mi">⚡ <b>Polish English</b> — Rewrite professionally…</div>
+            <div class="mi">⚡ <b>Key takeaways</b> — Summarize in 3-5 points…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot">Manage your library anytime from the <b>PromptBox toolbar icon</b> · Everything stays private in your browser</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <header class="hd">
+    <div class="brand"><span class="logo">⚡</span><h1>PromptBox</h1></div>
+    <div class="hd-right">
+      <span id="plan-badge" class="badge free">FREE</span>
+      <button id="upgrade-btn" class="btn-up">Upgrade</button>
+    </div>
+  </header>
+
+  <div id="quota" class="quota"></div>
+
+  <div id="folder-bar" class="folder-bar"></div>
+
+  <div class="add-form">
+    <input type="text" id="title-input" placeholder="Prompt title…" />
+    <textarea id="text-input" placeholder="Prompt text — use [variable] for fill-in, e.g. Write a poem about [topic]"></textarea>
+    <div class="form-row">
+      <select id="folder-select"></select>
+      <button id="add-btn" class="btn-primary">+ Save</button>
+    </div>
+  </div>
+
+  <div class="list" id="prompt-list"></div>
+
+  <footer class="ft">
+    <button id="export-btn" class="btn-ghost">⬇ Export JSON</button>
+    <button id="import-btn" class="btn-ghost">⬆ Import JSON</button>
+    <input type="file" id="import-file" accept=".json,application/json" hidden />
+    <button id="dev-btn" class="btn-dev" hidden>🧪 Toggle Pro (Dev)</button>
+  </footer>
+  <script src="payment.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
