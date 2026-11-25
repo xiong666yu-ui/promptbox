@@ -56,7 +56,7 @@ async function callCreem(path, payload, env) {
       'x-api-key': env.CREEM_API_KEY,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ product_id: env.CREEM_PRODUCT_ID, ...payload }),
+    body: JSON.stringify(payload),
   });
   let data = {};
   try {
@@ -69,30 +69,29 @@ async function callCreem(path, payload, env) {
 
 async function activate(body, env) {
   if (!body || !body.license_key) return json({ ok: false, error: 'license_key is required' }, 400);
+  // Creem expects exactly {"key", "instance_name"} — no product_id, no license_key field
   const { status, data } = await callCreem(
     '/v1/licenses/activate',
     {
-      license_key: body.license_key,
+      key: body.license_key,
       instance_name: (body.instance_name || 'PromptBox Device').slice(0, 60),
     },
     env
   );
-  const active = status === 200 && (data?.license_key?.status === 'active' || data?.valid === true);
+  const active = status === 200 && (data?.id || data?.license_key?.status === 'active' || data?.valid === true);
   if (!active) {
-    return json(
-      { ok: false, error: data?.message || data?.error?.message || 'Invalid license key, or it is already bound to another device' },
-      status === 200 ? 400 : status
-    );
+    return json({ ok: false, error: 'Invalid license key' }, 400);
   }
   return json({ ok: true, instance_id: data.id, status: data.license_key?.status || 'active' });
 }
 
 async function validate(body, env) {
   if (!body || !body.license_key) return json({ ok: false, error: 'license_key is required' }, 400);
+  // Creem expects exactly {"key", "instance_id"} — no product_id, no license_key field
   const { status, data } = await callCreem(
     '/v1/licenses/validate',
     {
-      license_key: body.license_key,
+      key: body.license_key,
       instance_id: body.instance_id || undefined,
     },
     env
