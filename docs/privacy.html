@@ -51,11 +51,19 @@
   If you uninstall PromptBox, or clear your browser data, all saved prompts are permanently deleted from your
   device. You can export your prompts as a JSON file at any time for backup.</p>
 
-  <h2>4. Payments</h2>
+  <h2>4. Payments &amp; License Verification</h2>
   <p>The optional Pro upgrade (one-time purchase) is processed by our payment provider
-  <a href="https://www.creem.io" rel="noopener">Creem</a>.
-  PromptBox never sees or stores your payment details. When you upgrade, only an anonymous license
-  token is stored locally to unlock Pro features.</p>
+  <a href="https://www.creem.io" rel="noopener">Creem</a>. PromptBox never sees or stores your payment details.</p>
+  <p>After checkout you receive a license key by email. To unlock Pro, PromptBox sends <strong>only that
+  license key (plus a device name you can edit)</strong> to our own Cloudflare Worker endpoint
+  (<code>promptbox-license.workers.dev</code>). The Worker forwards the key to Creem's license API
+  using a server-side API key that is never exposed to your browser, and returns a device instance ID.
+  PromptBox then stores the license key and that instance ID locally via <code>chrome.storage.local</code>.
+  The plugin periodically re-validates the key through the same Worker so that a refunded or revoked
+  license simply falls back to the Free tier.</p>
+  <p>Your <strong>prompts, folders and AI conversations never leave your device</strong> — only the
+  license key used for activation is transmitted, and only to our Worker and Creem. We do not collect,
+  sell, or share any personal data, chat history, or usage statistics.</p>
 
   <h2>5. Refund policy</h2>
   <p>Pro purchases come with a <strong>7-day money-back guarantee</strong>. If you are not satisfied,
