@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PromptBox — Prompt Manager for ChatGPT, Claude & Gemini",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Save, organize & insert AI prompts with '/' on ChatGPT, Claude and Gemini. Folders, variables, JSON backup. One-time purchase.",
   "permissions": ["storage"],
   "background": { "service_worker": "background.js" },

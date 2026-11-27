@@ -4,28 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PromptBox — Privacy Policy</title>
+<link rel="icon" type="image/png" href="./icons/icon48.png">
 <style>
   :root { color-scheme: light dark; }
-  body { max-width: 720px; margin: 40px auto; padding: 0 24px;
+  body { max-width: 720px; margin: 40px auto; padding: 0 24px 48px;
          font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
          line-height: 1.7; color: #1a1a1e; background: #ffffff; }
+  a { color: #4f46e5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
   @media (prefers-color-scheme: dark) {
     body { color: #f4f4f5; background: #17171a; }
     a { color: #818cf8; }
   }
-  h1 { font-size: 26px; } h2 { font-size: 18px; margin-top: 32px; }
-  .meta { color: #71717a; font-size: 14px; }
+  .topnav { font-size: 14px; margin-bottom: 24px; }
+  h1 { font-size: 26px; margin-bottom: 6px; }
+  h2 { font-size: 18px; margin-top: 32px; }
+  .meta { color: #71717a; font-size: 14px; margin-top: 0; }
   .highlight { background: #eef0fe; border-left: 4px solid #6366f1;
-               padding: 14px 18px; border-radius: 8px; }
+               padding: 14px 18px; border-radius: 8px; margin: 20px 0; }
   @media (prefers-color-scheme: dark) { .highlight { background: #2e2f4a; } }
 </style>
 </head>
 <body>
+  <div class="topnav"><a href="./index.html">&larr; Back to PromptBox</a> &middot; <a href="./terms.html">Terms of Service</a></div>
   <h1>PromptBox — Privacy Policy</h1>
-  <p class="meta">Last updated: November 24, 2026</p>
+  <p class="meta">Last updated: November 27, 2026</p>
 
   <div class="highlight">
-    <strong>Short version:</strong> PromptBox does not collect, transmit, or share any of your data.
+    <strong>Short version:</strong> PromptBox does not collect, transmit, or share any of your prompts or AI chats.
     Everything you save stays inside your own browser, on your own device.
   </div>
 
@@ -35,45 +41,36 @@
   <ul>
     <li>Your saved prompts (titles and text content)</li>
     <li>Your folder/category names</li>
-    <li>Your license state (Free / Pro)</li>
+    <li>Your license state (Free / Pro, license key, and activated device instance ID)</li>
   </ul>
 
   <h2>2. What data we do NOT collect</h2>
   <ul>
-    <li>We do <strong>not</strong> collect personal information, browsing history, or page content.</li>
-    <li>We do <strong>not</strong> transmit your prompts to any third-party server. There is no backend, no analytics, and no tracking of any kind.</li>
-    <li>We do <strong>not</strong> read the content of your conversations with ChatGPT, Claude, or Gemini. The extension only inserts text into the input box when <em>you</em> explicitly trigger it with the <code>/</code> shortcut.</li>
-    <li>We do <strong>not</strong> sell or share data with anyone — there is no data to sell.</li>
+    <li>We do <strong>not</strong> collect browsing history, page content, or analytics telemetry.</li>
+    <li>We do <strong>not</strong> transmit your saved prompts to any server.</li>
+    <li>We do <strong>not</strong> read or transmit the content of your conversations with ChatGPT, Claude, or Gemini. The extension only inserts text into the input box when <em>you</em> explicitly trigger it with the <code>/</code> shortcut.</li>
+    <li>We do <strong>not</strong> sell or share user data with third parties.</li>
   </ul>
 
   <h2>3. Data storage &amp; retention</h2>
-  <p>All data lives in your browser profile via <code>chrome.storage.local</code>. It is never uploaded.
+  <p>All prompt data lives in your browser profile via <code>chrome.storage.local</code>. It is never uploaded.
   If you uninstall PromptBox, or clear your browser data, all saved prompts are permanently deleted from your
   device. You can export your prompts as a JSON file at any time for backup.</p>
 
   <h2>4. Payments &amp; License Verification</h2>
-  <p>The optional Pro upgrade (one-time purchase) is processed by our payment provider
-  <a href="https://www.creem.io" rel="noopener">Creem</a>. PromptBox never sees or stores your payment details.</p>
-  <p>After checkout you receive a license key by email. To unlock Pro, PromptBox sends <strong>only that
-  license key (plus a device name you can edit)</strong> to our own Cloudflare Worker endpoint
-  (<code>promptbox-license.workers.dev</code>). The Worker forwards the key to Creem's license API
-  using a server-side API key that is never exposed to your browser, and returns a device instance ID.
-  PromptBox then stores the license key and that instance ID locally via <code>chrome.storage.local</code>.
-  The plugin periodically re-validates the key through the same Worker so that a refunded or revoked
-  license simply falls back to the Free tier.</p>
-  <p>Your <strong>prompts, folders and AI conversations never leave your device</strong> — only the
-  license key used for activation is transmitted, and only to our Worker and Creem. We do not collect,
-  sell, or share any personal data, chat history, or usage statistics.</p>
+  <p>The optional Pro upgrade ($6.99 USD one-time purchase) is processed by our Merchant of Record,
+  <a href="https://www.creem.io" rel="noopener" target="_blank">Creem</a> (Armitage Labs OÜ), which collects standard billing and tax compliance details directly on its secure checkout page in accordance with Creem's own Privacy Policy. PromptBox never sees or stores your payment card details.</p>
+  <p>After checkout you receive a license key by email. To unlock Pro, manage device seats, or check license status, PromptBox sends <strong>only that license key, device label, and returned device instance ID</strong> to our Cloudflare Worker license verification endpoint, which communicates with Creem's official license API (<code>/v1/licenses/activate</code>, <code>/validate</code>, and <code>/deactivate</code>) using an encrypted server-side API key.</p>
+  <p>Your <strong>prompts, folders, and AI conversations never leave your device</strong>.</p>
 
   <h2>5. Refund policy</h2>
-  <p>Pro purchases come with a <strong>7-day money-back guarantee</strong>. If you are not satisfied,
-  email us within 7 days of purchase and we will issue a full refund — no questions asked.</p>
+  <p>Pro purchases come with a <strong>7-day money-back guarantee</strong>. See our <a href="./terms.html">Terms of Service &amp; Refund Policy</a> or email us within 7 days of purchase for a full refund — no questions asked.</p>
 
   <h2>6. Permissions explanation</h2>
   <ul>
-    <li><strong>storage</strong> — required to save your prompts locally in the browser.</li>
+    <li><strong>storage</strong> — required to save your prompts and license status locally in the browser.</li>
     <li><strong>Host access to chatgpt.com, claude.ai, gemini.google.com</strong> — required to show the
-    <code>/</code> prompt menu inside the AI chat input box on these three sites. No content is read or sent anywhere.</li>
+    <code>/</code> prompt menu inside the AI chat input box on these three sites. No conversation content is transmitted anywhere.</li>
   </ul>
 
   <h2>7. Changes to this policy</h2>
@@ -81,7 +78,6 @@
 
   <h2>8. Contact</h2>
   <p>Questions about privacy or refunds? Email us at
-  <a href="mailto:xiong666yu@gmail.com">xiong666yu@gmail.com</a> — we usually reply within 24 hours.
-  You can also reach the developer via the Chrome Web Store "Contact the developer" link.</p>
+  <a href="mailto:xiong666yu@gmail.com">xiong666yu@gmail.com</a> — we usually reply within 24 hours.</p>
 </body>
 </html>

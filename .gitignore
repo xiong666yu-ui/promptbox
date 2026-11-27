@@ -1,2 +1,5 @@
 promptbox-release.zip
 *.zip
+.wrangler/
+worker/.wrangler/
+node_modules/

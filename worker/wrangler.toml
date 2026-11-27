@@ -2,8 +2,11 @@ name = "promptbox-license"
 main = "index.js"
 compatibility_date = "2026-11-20"
 
-# Don't wipe dashboard-managed vars (CREEM_API_KEY) on future deploys
+# Preserve secrets/vars managed in Cloudflare
 keep_vars = true
 
-# The Creem API key lives as a dashboard variable/secret — never put it in this file.
-# Set it with:  npx wrangler secret put CREEM_API_KEY
+[vars]
+CREEM_PRODUCT_ID = "prod_4GXKK2FVbguPycwyfCGaE"
+
+# Never put CREEM_API_KEY in this file.
+# Set it as an encrypted secret: npx wrangler secret put CREEM_API_KEY

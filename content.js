@@ -138,7 +138,7 @@
   function moveSel(dir) {
     if (!filtered.length) return;
     menuIndex = (menuIndex + dir + filtered.length) % filtered.length;
-    const rows = menuEl.querySelectorAll('.pb-item');
+    const rows = menuEl.querySelectorAll('.promptbox-item');
     rows.forEach((r, i) => r.classList.toggle('pb-active', i === menuIndex));
     if (rows[menuIndex]) rows[menuIndex].scrollIntoView({ block: 'nearest' });
   }
@@ -230,7 +230,7 @@
       '<span>✨ ' + esc(msg) + ' — one-time $6.99, free forever after.</span>' +
       '<button type="button">Upgrade</button>';
     toastEl.querySelector('button').onclick = () => {
-      PBPayment.openUpgrade(); // DEV_MODE: toggles Pro instantly for testing
+      PBPayment.openUpgrade();
       toastEl.remove();
       toastEl = null;
     };

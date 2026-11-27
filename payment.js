@@ -6,23 +6,20 @@
  *             JSON import/export. One-time purchase ($6.99).
  *
  * Flow:
- *   1. User pays at the Creem Checkout page → receives a license key by email.
- *   2. User pastes the key into the popup → popup calls our Cloudflare Worker.
- *   3. Worker holds the Creem API key in a server-side secret, validates the
- *      key with Creem's API and returns an instance_id.
- *   4. On success the plugin stores { pb_pro, pb_instance_id, pb_license_key }
- *      in chrome.storage.local → Pro unlocked on all three sites.
- *   5. Every popup open re-validates silently; a revoked/expired license
- *      falls back to the Free tier automatically.
+ *   1. User clicks Upgrade → Worker /checkout redirects to Creem Checkout.
+ *   2. User receives a license key by email and pastes it into the popup.
+ *   3. Worker validates the key with Creem's API and returns instance.id.
+ *   4. Extension stores { pb_pro, pb_instance_id, pb_license_key } locally.
+ *   5. Popup open silently re-validates; revoked/expired keys drop to Free,
+ *      while temporary network/server hiccups preserve current state.
  *
  * The Creem API key NEVER lives in this file — only in the Worker secret.
  */
 const PBPayment = (() => {
   // ==== CONFIG ====
-  const CHECKOUT_URL = 'https://www.creem.io/product/prod_4GXKK2FVbguPycwyfCGaE';
-  // TODO: after `wrangler deploy`, replace YOUR-SUBDOMAIN with the real one
-  // shown in the deploy output (e.g. promptbox-license.my-name.workers.dev).
+  // Once your custom domain is bound to the Worker, update WORKER_URL here (e.g. https://api.yourdomain.com).
   const WORKER_URL = 'https://promptbox-license.xiong666yu.workers.dev';
+  const CHECKOUT_URL = WORKER_URL + '/checkout';
 
   const PRO_KEY = 'pb_pro';
   const INSTANCE_KEY = 'pb_instance_id';
@@ -48,6 +45,7 @@ const PBPayment = (() => {
       chrome.storage.onChanged.addListener((c) => {
         if (c[PRO_KEY] !== undefined) pro = c[PRO_KEY].newValue === true;
         if (c[INSTANCE_KEY] !== undefined) instanceId = c[INSTANCE_KEY].newValue || null;
+        if (c[LICENSE_KEY] !== undefined) licenseKey = c[LICENSE_KEY].newValue || '';
       });
       resolve(pro);
     });
@@ -56,11 +54,10 @@ const PBPayment = (() => {
   function isPro() { return pro; }
   function getInstanceId() { return instanceId; }
 
-  /** Open the Creem Checkout page in a new tab. */
+  /** Open the Checkout redirect endpoint in a new tab. */
   function openCheckout() {
     window.open(CHECKOUT_URL, '_blank');
   }
-  // legacy alias — content script toast still calls openUpgrade()
   const openUpgrade = openCheckout;
 
   async function post(path, payload) {
@@ -69,22 +66,24 @@ const PBPayment = (() => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    return res.json();
+    const data = await res.json().catch(() => null);
+    return { httpOk: res.ok, status: res.status, data };
   }
 
   /** Validate a pasted license key via the Worker; unlocks Pro on success. */
   async function activateLicense(key, instanceName) {
     const clean = (key || '').trim();
     if (!clean) return { ok: false, error: 'Please enter your license key first.' };
-    let data;
+    let res;
     try {
-      data = await post('/activate', {
+      res = await post('/activate', {
         license_key: clean,
         instance_name: (instanceName || 'PromptBox Popup').slice(0, 60)
       });
-    } catch (e) {
+    } catch {
       return { ok: false, error: 'Cannot reach the license server. Check your connection and try again.' };
     }
+    const data = res.data;
     if (data && data.ok && data.instance_id) {
       licenseKey = clean;
       instanceId = data.instance_id;
@@ -95,23 +94,39 @@ const PBPayment = (() => {
     return { ok: false, error: (data && data.error) || 'Activation failed — please double-check your license key.' };
   }
 
-  /** Silent re-check on popup open. A revoked/expired key drops back to Free. */
+  /** Silent re-check on popup open. Only definitive invalidation drops Pro; network/5xx hiccups keep state. */
   async function validateStored() {
-    if (!licenseKey) return { ok: true, valid: false };
-    let data;
-    try {
-      data = await post('/validate', { license_key: licenseKey, instance_id: instanceId });
-    } catch (e) {
-      return { ok: false, error: 'network' }; // network hiccup: keep current state
+    if (!licenseKey || !instanceId) {
+      if (pro) {
+        await set({ [PRO_KEY]: false });
+        pro = false;
+      }
+      return { ok: true, valid: false };
     }
-    const valid = !!(data && data.ok && data.valid);
-    await set({ [PRO_KEY]: valid });
-    pro = valid;
-    return { ok: true, valid };
+    let res;
+    try {
+      res = await post('/validate', { license_key: licenseKey, instance_id: instanceId });
+    } catch {
+      return { ok: false, error: 'network' };
+    }
+    const data = res.data;
+    if (!data || data.ok !== true || typeof data.valid !== 'boolean') {
+      return { ok: false, error: 'upstream' };
+    }
+    await set({ [PRO_KEY]: data.valid });
+    pro = data.valid;
+    return { ok: true, valid: data.valid };
   }
 
-  /** Free the seat on this device (license key kept for easy re-activation). */
+  /** Release the seat on Creem and clear Pro status on this device. */
   async function deactivate() {
+    if (licenseKey && instanceId) {
+      try {
+        await post('/deactivate', { license_key: licenseKey, instance_id: instanceId });
+      } catch {
+        /* still allow local deactivation when offline */
+      }
+    }
     await set({ [PRO_KEY]: false, [INSTANCE_KEY]: null });
     pro = false;
     instanceId = null;
